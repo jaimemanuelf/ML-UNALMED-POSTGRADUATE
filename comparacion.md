@@ -1,4 +1,4 @@
-##Random Forest para Pitch Shifting 
+## Random Forest para Pitch Shifting 
 
 [Descripción]
 [Arquitectura]
@@ -12,10 +12,10 @@
 [Notas importantes]
 
 
-#Descripción
+# Descripción
 El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica y predice el buffer equivalente con la frecuencia fundamental desplazada una octava hacia arriba . Este modelo aprende la transformación directamente desde los datos.
 
-#Arquitectura
+# Arquitectura
 Input: (N, 512)  ── buffer de waveform de guitarra
          │
    MultiOutputRegressor
