@@ -13,7 +13,7 @@ Proyecto de Machine Learning para **pitch shifting (octava arriba)** aplicado a 
 - [Dataset esperado](#dataset-esperado)
 - [Salida del entrenamiento](#salida-del-entrenamiento)
 - [Limitaciones y trabajo futuro](#limitaciones-y-trabajo-futuro)
-
+- [Hola]
 ## Descripción
 Este repositorio contiene un notebook de experimentación donde se construye y entrena un modelo para transformar señales de audio originales (`x`) en señales objetivo desplazadas una octava (`y`), usando una arquitectura basada en STFT + Conv1D y una búsqueda de hiperparámetros con enfoque tipo REINFORCE.
 
