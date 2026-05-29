@@ -1,6 +1,6 @@
 ## Random Forest para Pitch Shifting 
 
-- [Descripción]
+- [Descripción](descripcion)
 - [Arquitectura]
 - [Requisitos]
 - [Estructura del dataset]
