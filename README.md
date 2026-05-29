@@ -13,6 +13,7 @@ Proyecto de Machine Learning para **pitch shifting (octava arriba)** aplicado a 
 - [Dataset esperado](#dataset-esperado)
 - [Salida del entrenamiento](#salida-del-entrenamiento)
 - [Limitaciones y trabajo futuro](#limitaciones-y-trabajo-futuro)
+- [Random Forest]
 
 ## Descripción
 Este repositorio contiene un notebook de experimentación donde se construye y entrena un modelo para transformar señales de audio originales (`x`) en señales objetivo desplazadas una octava (`y`), usando una arquitectura basada en STFT + Conv1D y una búsqueda de hiperparámetros con enfoque tipo REINFORCE.
@@ -95,3 +96,56 @@ Durante el entrenamiento se guarda el mejor modelo encontrado en la ruta definid
 - Incluir archivo `requirements.txt` y/o `environment.yml`.
 - Agregar métricas objetivas de calidad de audio y evaluación perceptual.
 - Empaquetar inferencia para integración directa con plugin VST3.
+
+## Random Fores
+El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica y predice el buffer equivalente con la frecuencia fundamental desplazada una octava hacia arriba (+12 semitonos). A diferencia de los enfoques clásicos de pitch shifting basados en DSP (STFT, Phase Vocoder), este modelo aprende la transformación directamente desde los datos.
+
+- Arquitectura
+  Input: (N, 512)  ── buffer de waveform de guitarra
+         │
+   MultiOutputRegressor
+         │
+   RandomForestRegressor  ×512  (un RF por cada sample de salida)
+   ├── Árbol 1  ──┐
+   ├── Árbol 2  ──┤  promedio de predicciones
+   ├── ...      ──┤
+   └── Árbol 100──┘
+         │
+Output: (N, 512) ── waveform con pitch shift +1 octava
+
+- Requisitos:
+  -scikit-learn1.6.1
+  -librosa0.11.0
+  -numpy2.4.6
+  -scipy1.16.3
+  -joblib1.5.3
+  -python 3.12
+- El notebook está diseñado para ejecutarse en Kaggle
+
+- Flujo del Notebook
+- 1. Instalación de dependencias
+        ↓
+2. Imports
+        ↓
+3. Configuración global + validación de rutas
+        ↓
+4. Emparejado automático x → y  +  split train/val (90/10 a nivel de archivo)
+        ↓
+5. Funciones utilitarias
+   ├── normalize_audio_pair()   — normalización compartida x/y
+   └── create_buffers()         — segmentación con hop_size
+        ↓
+6. Carga del dataset → arrays numpy (X_train, Y_train, X_val, Y_val)
+        ↓
+7. Definición del modelo  MultiOutputRegressor(RandomForestRegressor)
+        ↓
+8. Entrenamiento  →  model_rf.fit(X_train, Y_train)
+        ↓
+9. Evaluación  →  MSE · SNR · Correlación de Pearson
+        ↓
+10. Visualización de importancia de features
+        ↓
+11. Inferencia sobre audio completo con overlap-add
+        ↓
+12. Tabla comparativa Random Forest vs WaveNet
+  
