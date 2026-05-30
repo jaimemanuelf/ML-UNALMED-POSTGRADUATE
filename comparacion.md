@@ -42,6 +42,8 @@ El notebook está diseñado para ejecutarse en Kaggle
 
 #Estructura del dataset
 El dataset debe estar organizado así:
+
+```text
 DataSetParaPitchShift/
 ├── x/
 │   ├── AcordesYArpegios.wav
@@ -51,6 +53,7 @@ DataSetParaPitchShift/
     ├── AcordesYArpegiosShifted.wav
     ├── Prueba - MAINShifted.wav
     └── ...                     ← mismo audio con +1 octava
+```
     
 El emparejado x → y es automático: busca {nombre}Shifted.wav en la carpeta y. Si no encuentra coincidencia exacta, intenta un fallback por prefijo. Los archivos sin par son omitidos con advertencia.
 
