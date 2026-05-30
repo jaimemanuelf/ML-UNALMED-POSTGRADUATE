@@ -1,15 +1,15 @@
 ## Random Forest para Pitch Shifting 
 
-- [Descripción](descripción)
-- [Arquitectura]
-- [Requisitos]
-- [Estructura del dataset]
-- [Configuración]
-- [Flujo del notebook]
-- [Métricas de evaluación]
-- [Outputs generados]
-- [Comparación con WaveNet]
-- [Notas importantes]
+- [Descripción](#descripción)
+- [Arquitectura](#arquitectura)
+- [Requisitos](#requisitos)
+- [Estructura del dataset](#estructura)
+- [Configuración](#configuración)
+- [Flujo del notebook](#flujo)
+- [Métricas de evaluación](#metricas)
+- [Outputs generados](#outputs)
+- [Comparación con WaveNet](#comparación)
+- [Notas importantes](#notas)
 
 
 # Descripción
