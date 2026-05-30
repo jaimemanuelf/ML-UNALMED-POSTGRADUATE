@@ -7,10 +7,6 @@
 - [Configuración](#configuración)
 - [Flujo del notebook](#flujo)
 - [Métricas de evaluación](#metricas)
-- [Outputs generados](#outputs)
-- [Comparación con WaveNet](#comparación)
-- [Notas importantes](#notas)
-
 
 # Descripción
 El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica y predice el buffer equivalente con la frecuencia fundamental desplazada una octava hacia arriba . Este modelo aprende la transformación directamente desde los datos.
@@ -98,23 +94,3 @@ Tres métricas calculadas sobre el conjunto de validación, idénticas a las del
 - MSE (Mean Squared Error) — error cuadrático medio muestra a muestra. Menor es mejor.
 - SNR (Signal-to-Noise Ratio) — relación señal/ruido en dB calculada por frame, promediada sobre frames no silenciosos. Mayor es mejor.
 - Correlación de Pearson — similitud lineal entre predicción y ground truth, promedio sobre 500 frames. Rango [-1, 1], mayor es mejor.
-  
-# Outputs generados
-Todos los archivos se guardan en /kaggle/working/:
-ArchivoDescripciónbest_wavenet_model.h5Modelo RF serializado con joblibrf_analysis.pngGráfico de importancia de features + comparación waveformrf_output.wavAudio de prueba transformado con pitch shift +1 octava
-
-Comparación con WaveNet
-La celda final genera una tabla comparativa. Completa la columna WaveNet con los valores del otro notebook:
-pythonWAVENET_RESULTS = {
-    "MSE (val_loss)"    : None,   # <-- pegar val_loss final
-    "SNR (dB)"          : None,   # <-- pegar SNR
-    "Correlación"       : None,   # <-- pegar correlación
-    "Tiempo inferencia" : None,   # <-- pegar tiempo en segundos
-}
-Criterio de comparación:
-MétricaMejor cuando...MSEes menorSNR (dB)es mayorCorrelaciónes mayorTiempo de inferenciaes menor
-
-Notas importantes
-Split sin data leakage: la división train/val se hace a nivel de archivo completo (90/10), no a nivel de buffer. Esto evita que buffers del mismo archivo aparezcan en ambos conjuntos.
-Inferencia con overlap-add: durante la inferencia se usa HOP_SIZE_INFER = BUFFER_SIZE (sin solapamiento) para reconstruir el audio completo. El mismo método se usa en el notebook WaveNet para garantizar comparación justa.
-Importancia de features: el gráfico de la sección 10 muestra qué posiciones del buffer de entrada tienen mayor peso para predecir la muestra central de salida. Esto es exclusivo del Random Forest — WaveNet no ofrece esta interpretabilidad.
