@@ -12,8 +12,6 @@
 - [Pipeline de datos](#pipeline-de-datos)
 - [Inferencia](#inferencia)
 - [Outputs generados](#outputs-generados)
-- [Diferencias frente al modelo TCN-STFT anterior](#diferencias-frente-al-modelo-tcn-stft-anterior)
-
 
 ## Descripción
 El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica (a 96 kHz, ~5.33 ms) y predice el buffer equivalente con la frecuencia fundamental desplazada una octava hacia arriba (+12 semitonos). Aprende la transformación completamente en el **dominio del tiempo**, sin ninguna representación frecuencial intermedia.
@@ -236,25 +234,3 @@ Todos los archivos se guardan en `/kaggle/working/`:
 
 ---
 
-## Diferencias frente al modelo TCN-STFT anterior
-
-| Aspecto | TCN-STFT (anterior) | WaveNet (este notebook) |
-|---|---|---|
-| Dominio | Frecuencial (STFT) | Temporal (raw waveform) |
-| Arquitectura | TCN con dilataciones | Convoluciones causales dilatadas + gated |
-| Activación | ReLU estándar | `tanh × sigmoid` (gated) |
-| Búsqueda de HP | Manual / grid search | Agente REINFORCE (policy gradient) |
-| Interpretabilidad | Baja | Baja (caja negra profunda) |
-| Requiere GPU | Recomendado | Necesario para tiempos razonables |
-
----
-
-## Notas
-
-**Split sin data leakage:** la división train/val opera a nivel de archivo completo, no de buffer. Buffers del mismo archivo nunca aparecen simultáneamente en ambos conjuntos.
-
-**`K.clear_session()` entre trials:** imprescindible para liberar el grafo de Keras de cada trial y evitar memory leaks acumulados en la GPU a lo largo de los 5 trials.
-
-**Función de pérdida personalizada:** `wavenet_loss` (MSE sobre waveform) debe pasarse como `custom_objects` al cargar el modelo guardado. Si se omite, Keras no puede deserializar el `.h5` correctamente.
-
-**`BUFFER_SIZE = 512`:** elegido para coincidir con el tamaño de buffer ASIO estándar (~5.33 ms a 96 kHz), haciendo el modelo directamente aplicable en pipelines de audio en tiempo real.
