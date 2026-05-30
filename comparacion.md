@@ -13,6 +13,7 @@ El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica y predi
 
 # Arquitectura
 '''text
+
 Input: (N, 512)  ── buffer de waveform de guitarra
          │
    MultiOutputRegressor
