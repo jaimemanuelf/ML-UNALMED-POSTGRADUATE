@@ -68,6 +68,7 @@ HOP_SIZE_INFER = 512     # sin overlap durante inferencia
 MAX_BUFFERS_PER_FILE = 2000  # límite de buffers por archivo (None = todos)
 
 # Flujo del notebook
+```text
 1. Instalación de dependencias
         ↓
 2. Imports
@@ -93,6 +94,7 @@ MAX_BUFFERS_PER_FILE = 2000  # límite de buffers por archivo (None = todos)
 11. Inferencia sobre audio completo con overlap-add
         ↓
 12. Tabla comparativa Random Forest vs WaveNet
+```
 
 # Métricas de evaluación
 Tres métricas calculadas sobre el conjunto de validación, idénticas a las del notebook WaveNet para comparación directa:
