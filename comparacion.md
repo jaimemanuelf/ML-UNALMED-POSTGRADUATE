@@ -12,6 +12,7 @@
 El modelo recibe buffers de 512 muestras de audio de guitarra eléctrica y predice el buffer equivalente con la frecuencia fundamental desplazada una octava hacia arriba . Este modelo aprende la transformación directamente desde los datos.
 
 # Arquitectura
+"""text
 Input: (N, 512)  ── buffer de waveform de guitarra
          │
    MultiOutputRegressor
@@ -23,6 +24,7 @@ Input: (N, 512)  ── buffer de waveform de guitarra
    └── Árbol 100──┘
          │
 Output: (N, 512) ── waveform con pitch shift +1 octava
+"""
 
 MultiOutputRegressor entrena un RandomForestRegressor independiente por cada una de las 512 posiciones de salida. Cada árbol considera sqrt(512) ≈ 22 features por split.
 Hiperparámetros por defecto:
